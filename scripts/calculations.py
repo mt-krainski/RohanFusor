@@ -1,6 +1,4 @@
 
-## ref: http://edge.rit.edu/edge/P14651/public/Miscellaneous/Design%20rules%20for%20vacuum%20chambers.pdf
-## ref2: https://plastics.ulprospector.com/generics/3/c/t/acrylic-properties-processing
 
 import numpy as np
 
@@ -9,6 +7,9 @@ def circumferential_stress(
         diameter,
         wall_thickness,
         pressure=1e5):
+    """
+    According to [RD1]
+    """
     radius = diameter/2
     return pressure*(radius)/wall_thickness
 
@@ -18,6 +19,9 @@ def axial_stress(
         wall_thickness,
         axial_force,
         pressure=1e5):
+    """
+    According to [RD1]
+    """
     radius = diameter/2
     return (pressure*radius)/(2*wall_thickness) +\
                 axial_force/(2*np.pi*radius*wall_thickness)
@@ -28,6 +32,9 @@ def von_mises_stress(
         wall_thickness,
         axial_force,
         pressure=1e5):
+    """
+    According to [RD1]
+    """
     radius = diameter/2
     return 0.5 * (3*(pressure*radius/wall_thickness)**2 +\
                   (axial_force/(np.pi*radius*wall_thickness))**2)**0.5
@@ -40,8 +47,8 @@ def buckling_pressure(
         poisson_ratio=0.1**0.5):
     """
     This approximates the pressure at which given tube will fail.
+    According to [RD1]
     """
-
     radius = diameter/2
     return (0.25*youngs_modulus)/(1-poisson_ratio**2) * (wall_thickness/radius)**3
 
@@ -68,15 +75,19 @@ def format_si(value):
 
 
 g = 9.81
-psi_to_pa = 6894.76 # let"s keep everything in Pascals
+psi_to_pa = 6894.76 # converting psi values from [RD2] to Pa
 
-diameter = 0.05
-wall_thickness = 0.003
-length = 0.12
-youngs_modulus = 342000 * psi_to_pa
-tensile_strength_yield = 5370 * psi_to_pa
+diameter = 0.05 # from design
+wall_thickness = 0.003 # from design
+length = 0.12 # from design
+youngs_modulus = 342000 * psi_to_pa # from [RD2]
+tensile_strength_yield = 5370 * psi_to_pa # from [RD2]
+material_name = "Acrylic"
 
-top_cover_weight = 0.2
+top_cover_radius = 0.070
+top_cover_height = 0.005
+top_cover_density = 2700
+top_cover_weight = (np.pi*top_cover_radius**2)*top_cover_height*top_cover_density
 axial_force = top_cover_weight*g
 
 safety_factor = 1.5
@@ -86,10 +97,11 @@ pressure = 1e5
 
 if __name__ == "__main__":
 
-    print("The tensile strength is: "
+    print(f"The tensile strength of {material_name}: "
           f"{format_si(tensile_strength_yield)[0]} "
           f"{format_si(tensile_strength_yield)[1]}Pa")
-    print(f"The Young's modulus is: {format_si(youngs_modulus)[0]}"
+    print(f"The Young's modulus of {material_name}: "
+          f"{format_si(youngs_modulus)[0]}"
           f" {format_si(youngs_modulus)[1]}Pa")
 
     print_result(
