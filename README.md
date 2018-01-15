@@ -32,9 +32,9 @@ This project is fully designed using [FreeCAD](https://www.freecadweb.org/) and 
 * The length of a possible spark, when dealing with HV is approximately  1 cm per 30 kV. Verify (and modify if needed) existing isolations to prevent sparking.
 
 ### References ###
-* [RD1 - Design rules for vacuum chambers] [RD1]
-* [RD2 - Acrylic Typical Properties Generic Acrylic (PMMA)] [RD2]
-* [RD3 - Density of aluminum] [RD3]
+* [RD1] - Design rules for vacuum chambers
+* [RD2] - Acrylic Typical Properties Generic Acrylic (PMMA)
+* [RD3] - Density of aluminum
 
 
 [RD1]: http://edge.rit.edu/edge/P14651/public/Miscellaneous/Design%20rules%20for%20vacuum%20chambers.pdf
